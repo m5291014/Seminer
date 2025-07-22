@@ -31,6 +31,8 @@
 
 mediapipeなどを使うと、head pose estimationが可能
 
+④ 瞬き
+
 ## 実行コード
 
 ### mediapipeを使用する場合
