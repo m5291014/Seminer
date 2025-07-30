@@ -52,3 +52,12 @@ pip install dlib
 pip install opencv-python
 pip install gaze-tracking
 ~~~
+
+### Python_Gaze_Face_Trackerを使用する場合
+(7/30 Yahagi edited)
+~~~bash!
+pip install opencv-python mediapipe pyautogui
+~~~
+
+* 補正:  スクリーンの左上->右上->左下->右下->真ん中の五段階で補正を行う。
+* 目線＋顔の向きでマウスを動かすが、メインは顔の向きになりそう。顔を動かすとその角度に応じてマウスが動き、コード内の「alpha」の値でどれだけ早くカーソルが動くか（マウス感度）を変更することができる。
