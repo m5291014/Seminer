@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import pyautogui
 import numpy as np
-import time
+
 
 screen_w, screen_h = pyautogui.size()
 
@@ -25,14 +25,6 @@ guide_texts = [
     "Look at the CENTER and press SPACE"
 ]
 
-# ガイドマークの位置（ウィンドウサイズに依存せず画面中央などに表示）
-guide_points = [
-    (100, 100),                         # 左上
-    (screen_w - 100, 100),              # 右上
-    (100, screen_h - 100),              # 左下
-    (screen_w - 100, screen_h - 100),   # 右下
-    (screen_w // 2, screen_h // 2)      # 中央
-]
 
 print("🔧 キャリブレーションを開始します。")
 print("画面の左上・右上・左下・右下・中央を見て、スペースキーを押してください。")
@@ -58,11 +50,8 @@ while True:
 
             # キャリブレーションガイド表示
             if idx < 5:
-                guide_pos = guide_points[idx]
                 guide_text = guide_texts[idx]
 
-                # ガイドマークを画面上に描画（カメラ画像内にも）
-                # cv2.circle(frame, (int(guide_pos[0] * img_w / screen_w), int(guide_pos[1] * img_h / screen_h)), 15, (0, 0, 255), -1)
                 cv2.putText(frame, guide_text, (30, 60),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
                 
@@ -77,10 +66,6 @@ while True:
                     gaze_max[1] = max(p[1] for p in calibration_points)
                     calibrated = True
                     print("✅ キャリブレーション完了！")
-            else:
-                # cv2.putText(frame, "Calibrating... Look at corner and press SPACE", (50, 50),
-                #            cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
-                pass
         else:
             # キャリブレーション済みなら、補正してマウス移動
             norm_x = (gaze_x - gaze_min[0]) / (gaze_max[0] - gaze_min[0])
