@@ -1,5 +1,7 @@
 ~~~bash!
 pip install opencv-python mediapipe pyautogui
+~~~
+~~~bash!
 Package                 Version
 ----------------------- -----------
 absl-py                 2.3.1
