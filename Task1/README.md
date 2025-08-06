@@ -1,4 +1,4 @@
-# Task1: 左の瞳[landmark(473)]を使って、カーソルを移動(mediapipe)
+## Task1: 左の瞳[landmark(473)]を使って、カーソルを移動(mediapipe)
 ~~~bash!
 pip install opencv-python mediapipe pyautogui
 ~~~
