@@ -1,3 +1,4 @@
+~~~bash!
 pip install opencv-python mediapipe pyautogui
 Package                 Version
 ----------------------- -----------
@@ -41,3 +42,4 @@ scipy                   1.15.3
 setuptools              57.4.0
 six                     1.17.0
 sounddevice             0.5.2
+~~~
