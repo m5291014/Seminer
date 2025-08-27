@@ -52,13 +52,13 @@ def create_keyboard_layout(is_symbol_layout, is_shift_on, font):
     keys, key_surfaces = {}, {}
     
     layout_qwerty = [
-        [("1","1"),("2","2"),("3","3"),("4","4"),("5","5"),("6","6"),("7","7"),("8","8"),("9","9"),("0","0")],
         [("q","q"), ("w","w"), ("e","e"), ("r","r"), ("t","t"), ("y","y"), ("u","u"), ("i","i"), ("o","o"), ("p","p")],
         [("a","a"), ("s","s"), ("d","d"), ("f","f"), ("g","g"), ("h","h"), ("j","j"), ("k","k"), ("l","l")],
         [("z","z"), ("x","x"), ("c","c"), ("v","v"), ("b","b"), ("n","n"), ("m","m")]
     ]
     
     layout_symbols = [
+        [("1","1"),("2","2"),("3","3"),("4","4"),("5","5"),("6","6"),("7","7"),("8","8"),("9","9"),("0","0")],
         [("!","!"),("\"","@"),("#","#"),("$","$"),("%","%"),("&","^"),("\'","&"),("(","*"),(")","(")],
         [("-","-"),("=","_"),("^","^"),("~","~"),("¥","yen"),("|","|"),("@","["),("`","`")],
         [("[","]"),("]","\\"),("{","{"),("}","|"),(":","\'"),("+","add"),(";", ";"),("*","\"")],
@@ -204,9 +204,15 @@ def main():
             if not is_swiping and candidates:
                 candidate_rects=[]
                 cand_y_start = list(keys.values())[-1].bottom + 40
+                total_height = len(candidates) * 40
+
+                # はみ出す場合は上にずらす
+                if cand_y_start + total_height > SCREEN_HEIGHT:
+                    cand_y_start = SCREEN_HEIGHT - total_height - 20
+                    
                 for i, word in enumerate(candidates):
                     cand_surf = font_ui.render(f"{i+1}. {word}", True, CANDIDATE_COLOR, (255,255,255))
-                    cand_rect = cand_surf.get_rect(topleft=(40, cand_y_start+i*40))
+                    cand_rect = cand_surf.get_rect(topright=(SCREEN_WIDTH - 40, cand_y_start+i*40))
                     candidate_rects.append(cand_rect)
                     if fingertip_pos and cand_rect.collidepoint(fingertip_pos):
                         highlighted_candidate_index=i
