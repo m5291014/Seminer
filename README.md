@@ -1,6 +1,6 @@
 ## (Goal)非接触でPC操作を実現する
 
-### Task1: 左の瞳[landmark(473)]を使って、カーソルを移動(mediapipe)
+### Task1: 眉間[landmark(268)]を使って、カーソルを移動(mediapipe)
 ##### ・
 
 ### Task2: ハンドジェスチャー(片手どっちか)を取得し、マウスの機能を網羅する(mediapipe)
