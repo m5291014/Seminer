@@ -174,12 +174,15 @@ def create_keyboard_layout(font, mode='en', shift_toggle=False):
 
     if mode == 'en':
         layout = layout_qwerty
+        keyboard_y_offset = 80
     elif mode == 'sym':
         layout = layout_symbols
+        keyboard_y_offset = 120
     else:  # 'jp'
         layout = layout_gojuon_shift if shift_toggle else layout_gojuon_normal
+        keyboard_y_offset = 120
 
-    key_size, padding, keyboard_y_offset = 60, 8, 120
+    key_size, padding = 60, 8
     for i, row in enumerate(layout):
         start_x = (SCREEN_WIDTH - (len(row)*(key_size+padding)-padding))/2
         y = padding + i*(key_size+padding) + keyboard_y_offset
@@ -382,20 +385,24 @@ def main():
             highlighted_candidate_index = -1
             if not is_swiping and candidates_all:
                 candidate_rects = []
-                cand_y_start = list(keys.values())[-1].bottom + 40
-                total_height = 5 * 40
-                
-                if cand_y_start + total_height > SCREEN_HEIGHT:
-                    cand_y_start = SCREEN_HEIGHT - total_height - 20
-                    
                 page_candidates = candidates_all[candidate_page*5:(candidate_page+1)*5]
+
+                # ★中央下部に表示するための位置計算
+                total_height = len(page_candidates) * 38
+                cand_y_start = SCREEN_HEIGHT - total_height - 30  # 下端から20px余白
                 for i, word in enumerate(page_candidates):
                     cand_surf = font_ui.render(f"{i+1}. {word}", True, CANDIDATE_COLOR, (255,255,255))
-                    cand_rect = cand_surf.get_rect(topright=(SCREEN_WIDTH - 40, cand_y_start + i*40))
+
+                    # ★中央揃え
+                    cand_rect = cand_surf.get_rect(center=(SCREEN_WIDTH // 2, cand_y_start + i * 30))
                     candidate_rects.append(cand_rect)
+
+                    # ハイライト判定
                     if fingertip_pos and cand_rect.collidepoint(fingertip_pos):
                         highlighted_candidate_index = i
+
                     screen.blit(cand_surf, cand_rect)
+
 
             if highlighted_candidate_index != -1 and candidate_rects:
                 highlight_surf = pygame.Surface(candidate_rects[highlighted_candidate_index].size, pygame.SRCALPHA)
@@ -404,8 +411,8 @@ def main():
 
             # ページ切替ボタン（内部候補用）
             if candidates_all:
-                btn_up = pygame.Rect(SCREEN_WIDTH-120, 20, 40, 40)
-                btn_down = pygame.Rect(SCREEN_WIDTH-60, 20, 40, 40)
+                btn_up = pygame.Rect(SCREEN_WIDTH-300, 370, 60, 60)
+                btn_down = pygame.Rect(SCREEN_WIDTH-300, 440, 60, 60)
                 keys[("UP","cand_up")] = btn_up
                 keys[("DN","cand_down")] = btn_down
                 for (label, value), rect in [(("UP","cand_up"), btn_up), (("DN","cand_down"), btn_down)]:
