@@ -6,6 +6,7 @@ import math
 import pyautogui
 import Levenshtein
 import os
+from word_freq import zipf_frequency
 
 # --- Pygameの初期設定 ---
 SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
@@ -61,9 +62,10 @@ def load_dictionary_from_file(filepath):
 WORD_DICTIONARY = load_dictionary_from_file('words.txt')
 
 def candidate_score_lev(word, swiped_keys):
+    freq = zipf_frequency(word, 'en')
     seq = ''.join([k[0] if isinstance(k, tuple) else k for k in swiped_keys]).lower()
-    dist = Levenshtein.distance(word, seq) if seq and word else 999
-    return -dist  # 小さい距離が高評価
+    dist = Levenshtein.distance(word, seq)
+    return freq * 2 - dist * 0.5  # 距離が大きいとスコア下げる
 
 # --- ジェスチャー判定（そのまま） ---
 def is_v_sign(hand_landmarks):
