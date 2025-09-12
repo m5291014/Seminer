@@ -86,12 +86,11 @@ dragging = False
 tips_ids = [4, 8, 12, 16, 20]
 
 # --- 音量関連 ----
-VOLUME_CD = 10           # 音量の連射抑制フレーム
-NOSE_TOL_Y = 0.12        # 鼻/耳のy±許容帯（顔高さ比）
+VOLUME_CD = 3          
+NOSE_TOL_Y = 0.12       
 USE_EAR_HEIGHT_IF_AVAILABLE = True
-SCROLL_CD = 10           # スクロールの連射抑制
-SCROLL_STEP = 100        # スクロール量
-
+SCROLL_CD = 3         
+SCROLL_STEP = 100        
 try:
     volume_cooldown
 except NameError:
@@ -570,14 +569,6 @@ def mouse_mode():
         scroll_cooldown -= 1
     if volume_cooldown > 0:
         volume_cooldown -= 1
-
-    # デバッグの補助線（音量帯と鼻x）
-    if (ref_y is not None) and (face_h is not None):
-        tol_px = int(face_h * NOSE_TOL_Y)
-        cv2.line(frame, (0, int(ref_y - tol_px)), (w, int(ref_y - tol_px)), (120, 180, 120), 1)
-        cv2.line(frame, (0, int(ref_y + tol_px)), (w, int(ref_y + tol_px)), (120, 180, 120), 1)
-    if nose_x is not None:
-        cv2.line(frame, (int(nose_x), 0), (int(nose_x), h), (80, 160, 220), 1)
 
     cv2.putText(frame, f"Action: {current_action}", (10, 40),
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 200, 255), 2)
